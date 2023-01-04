@@ -12,7 +12,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
 class ShowInternalMusic extends StatefulWidget {
-  const ShowInternalMusic({Key? key}) : super(key: key);
+  const ShowInternalMusic({super.key});
 
   @override
   State<ShowInternalMusic> createState() => _ShowInternalMusicState();
@@ -115,7 +115,9 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           style: const TextStyle(color: Colors.white),
                           cursorColor: Colors.grey,
                           decoration: InputDecoration(
-                            fillColor: isSearching == ''? Colors.white10: Color(0xff30164e),
+                            fillColor: isSearching == ''
+                                ? Colors.white10
+                                : Color(0xff30164e),
                             filled: true,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -131,10 +133,18 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                               width: 18,
                               child: Image.asset('assets/icons/search.png'),
                             ),
-                            suffixIcon: isSearching == ''? null:IconButton(onPressed:(){
-                              setState(_searchingController.clear);
-                            }, icon: const Icon(Icons.cancel),
-                            ),
+                            suffixIcon: isSearching == ''
+                                ? null
+                                : IconButton(
+                                    onPressed: () {
+                                      setState(_searchingController.clear);
+                                    },
+                                    icon: const Icon(
+                                      Icons.close,
+                                      size: 28,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
@@ -172,10 +182,10 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           fontSize: 20,
                         ),
                       ),
-                      Text(
-                        'See All',
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
+                      // Text(
+                      //   'See All',
+                      //   style: TextStyle(color: Colors.grey, fontSize: 16),
+                      // ),
                     ],
                   ),
                 ),
