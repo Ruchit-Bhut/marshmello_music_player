@@ -1,16 +1,17 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marshmello_music_player/provider/song_model_provider.dart';
-import 'package:marshmello_music_player/show_internal_music.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class PlayMusicScreen extends StatefulWidget {
   const PlayMusicScreen(
-      {Key? key, required this.songModel, required this.audioPlayer})
-      : super(key: key);
+      {super.key, required this.songModel, required this.audioPlayer,});
 
   final SongModel songModel;
   final AudioPlayer audioPlayer;
@@ -26,11 +27,14 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
 
   bool _isPlaying = false;
 
+
+
   @override
   void initState() {
     super.initState();
     playSong();
   }
+
   void playSong() {
     try {
       widget.audioPlayer.setAudioSource(
@@ -41,7 +45,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
       widget.audioPlayer.play();
       _isPlaying = true;
     } on Exception {
-      stdout.write("Cannot Parse Song");
+      stdout.write('Cannot Parse Song');
     }
     widget.audioPlayer.durationStream.listen((d) {
       setState(() {
@@ -64,7 +68,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
           SizedBox(
             width: 6,
             child: Image(
-              image: AssetImage("assets/icons/ThreeDot.png"),
+              image: AssetImage('assets/icons/ThreeDot.png'),
             ),
           ),
           SizedBox(
@@ -75,23 +79,20 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
         elevation: 0,
         leading: InkWell(
           onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ShowInternalMusic(),
-              ),
-            );
+            Navigator.of(context).pop();
           },
           child: const Icon(
             Icons.chevron_left,
             size: 35,
           ),
         ),
-        title: Text(
+        title:TextScroll(
           widget.songModel.displayNameWOExt,
+          velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
+          pauseBetween: const Duration(milliseconds: 1000),
           style: const TextStyle(fontSize: 22),
         ),
-        centerTitle: true,
+        // centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 70),
@@ -116,14 +117,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                   height: 40,
                 ),
                 const ArtWorkWidget(),
-                // Container(
-                //   height: 300,
-                //   width: 300,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(20),
-                //     color: Colors.white12,
-                //   ),
-                // ),
+
                 const SizedBox(
                   height: 30,
                 ),
@@ -138,7 +132,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 25,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold,),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -154,8 +148,8 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         ],
                       ),
                       Text(
-                        widget.songModel.artist.toString() == "<unknown>"
-                            ? "Unknown Artist"
+                        widget.songModel.artist.toString() == '<unknown>'
+                            ? 'Unknown Artist'
                             : widget.songModel.artist.toString(),
                         maxLines: 1,
                         style:
@@ -174,14 +168,16 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                       child: Row(
                         children: [
                           Text(
-                            _position.toString().split(".")[0],
+                            _position.toString().split('.')[0],
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                                color: Colors.white, fontSize: 20,),
                           ),
                           Expanded(
                             child: Slider(
+                              inactiveColor: Colors.white,
+                              activeColor: Color(0xff7b57e4),
                               value: _position.inSeconds.toDouble(),
-                              min: const Duration(microseconds: 0)
+                              min: const Duration()
                                   .inSeconds
                                   .toDouble(),
                               max: _duration.inSeconds.toDouble(),
@@ -196,9 +192,9 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                             ),
                           ),
                           Text(
-                            _duration.toString().split(".")[0],
+                            _duration.toString().split('.')[0],
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                                color: Colors.white, fontSize: 20,),
                           ),
                         ],
                       ),
@@ -212,7 +208,10 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         IconButton(
                           iconSize: 45,
                           color: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                            });
+                          },
                           icon: const Icon(Icons.skip_previous_rounded),
                         ),
                         const SizedBox(
@@ -233,7 +232,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           },
                           icon: Icon(_isPlaying
                               ? Icons.pause_rounded
-                              : Icons.play_arrow_rounded),
+                              : Icons.play_arrow_rounded,),
                         ),
                         const SizedBox(
                           width: 20,
@@ -241,7 +240,10 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         IconButton(
                           iconSize: 45,
                           color: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                            });
+                          },
                           icon: const Icon(Icons.skip_next_rounded),
                         ),
                       ],
@@ -257,16 +259,15 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
   }
 
   void changeToSeconds(int seconds) {
-    Duration duration = Duration(seconds: seconds);
+    final duration = Duration(seconds: seconds);
     widget.audioPlayer.seek(duration);
   }
 }
 
 class ArtWorkWidget extends StatelessWidget {
   const ArtWorkWidget({
-    Key? key,
-    // required this.widget,
-  }) : super(key: key);
+    super.key,
+  });
 
   // final PlayMusicScreen widget;
 
@@ -279,11 +280,10 @@ class ArtWorkWidget extends StatelessWidget {
       artworkWidth: 300,
       artworkFit: BoxFit.cover,
       nullArtworkWidget: Image.asset(
-        "assets/icons/music.png",
+        'assets/icons/music.png',
         height: 300,
         width: 300,
       ),
     );
   }
 }
-

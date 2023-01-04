@@ -36,24 +36,24 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Center(
                   child: Image(
-                    image: AssetImage("assets/images/mellow.png"),
+                    image: AssetImage('assets/images/mellow.png'),
                     width: 300,
                     height: 300,
                   ),
                 ),
                 const SizedBox(height: 50,),
                 const Text(
-                  "Getting Started",
+                  'Getting Started',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30),
+                      fontSize: 30,),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  "Getting Started Getting",
+                  'Getting Started Getting',
                   style: TextStyle(color: Colors.white60, fontSize: 18),
                 ),
                 const SizedBox(
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         color: const Color(0xff8d7cfa)
-                    ),
+                    ,),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
@@ -95,14 +95,14 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: const [
                 Text(
-                  "MARSHMELLO",
+                  'MARSHMELLO',
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  "BEST MUSIC PLAYER",
+                  'BEST MUSIC PLAYER',
                   style: TextStyle(
                     fontSize: 10,
                     color: Colors.grey,
