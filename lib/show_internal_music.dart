@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marshmello_music_player/favorite_songs.dart';
 import 'package:marshmello_music_player/play_screen.dart';
+import 'package:marshmello_music_player/provider/fav_song_model.dart';
 import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +27,14 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
 
   String isSearching = '';
 
-  playSong(String? uri) async {
+  Future<void> playSong(String? uri) async {
     try {
       await _audioPlayer.setAudioSource(
         AudioSource.uri(
           Uri.parse(uri!),
         ),
       );
-      _audioPlayer.play();
+      await _audioPlayer.play();
     } on Exception {
       stdout.write('Error parsing song');
     }
@@ -253,11 +254,25 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                 ),
                               ),
                               trailing: InkWell(
-                                onTap: () {},
-                                child: isFavorite == true
+                                onTap: () {
+                                  if (context
+                                      .read<FavSongProvider>()
+                                      .isFav(item.data![index].id)) {
+                                    context
+                                        .read<FavSongProvider>()
+                                        .remFav(item.data![index].id);
+                                  } else {
+                                    context
+                                        .read<FavSongProvider>()
+                                        .addToFav(item.data![index].id);
+                                  }
+                                },
+                                child: context
+                                        .watch<FavSongProvider>()
+                                        .isFav(item.data![index].id)
                                     ? const Icon(
                                         Icons.favorite,
-                                        color: Colors.white,
+                                        color: Colors.pink,
                                       )
                                     : const Icon(
                                         Icons.favorite_outline_rounded,

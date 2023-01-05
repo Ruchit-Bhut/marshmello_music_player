@@ -2,14 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:marshmello_music_player/home_page.dart';
+import 'package:marshmello_music_player/provider/fav_song_model.dart';
 import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => SongModelProvider(),
-      child: const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => SongModelProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FavSongProvider(),
+        ),
+      ],
+      child: MyApp(),
     ),
   );
 }

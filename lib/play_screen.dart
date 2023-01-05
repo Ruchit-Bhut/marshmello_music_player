@@ -6,10 +6,16 @@ import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:provider/provider.dart';
+
+import 'provider/fav_song_model.dart';
 
 class PlayMusicScreen extends StatefulWidget {
-  const PlayMusicScreen(
-      {super.key, required this.songModel, required this.audioPlayer,});
+  const PlayMusicScreen({
+    super.key,
+    required this.songModel,
+    required this.audioPlayer,
+  });
 
   final SongModel songModel;
   final AudioPlayer audioPlayer;
@@ -19,13 +25,10 @@ class PlayMusicScreen extends StatefulWidget {
 }
 
 class _PlayMusicScreenState extends State<PlayMusicScreen> {
-
   Duration _duration = const Duration();
   Duration _position = const Duration();
 
   bool _isPlaying = false;
-
-
 
   @override
   void initState() {
@@ -56,6 +59,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +88,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
             size: 35,
           ),
         ),
-        title:TextScroll(
+        title: TextScroll(
           widget.songModel.displayNameWOExt,
           velocity: const Velocity(pixelsPerSecond: Offset(50, 0)),
           pauseBetween: const Duration(milliseconds: 1000),
@@ -115,7 +119,6 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                   height: 40,
                 ),
                 const ArtWorkWidget(),
-
                 const SizedBox(
                   height: 30,
                 ),
@@ -128,19 +131,42 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         widget.songModel.displayNameWOExt,
                         maxLines: 1,
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,),
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: Icon(
-                              Icons.favorite_outline_rounded,
-                              color: Colors.white,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (context
+                                  .read<FavSongProvider>()
+                                  .isFav(widget.songModel.id)) {
+                                context
+                                    .read<FavSongProvider>()
+                                    .remFav(widget.songModel.id);
+                              } else {
+                                context
+                                    .read<FavSongProvider>()
+                                    .addToFav(widget.songModel.id);
+                              }
+                            },
+                            child: SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: context
+                                      .watch<FavSongProvider>()
+                                      .isFav(widget.songModel.id)
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      color: Colors.pink,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_outline_rounded,
+                                      color: Colors.white,
+                                    ),
                             ),
                           )
                         ],
@@ -151,7 +177,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                             : widget.songModel.artist.toString(),
                         maxLines: 1,
                         style:
-                        const TextStyle(color: Colors.grey, fontSize: 20),
+                            const TextStyle(color: Colors.grey, fontSize: 20),
                       ),
                     ],
                   ),
@@ -168,20 +194,20 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           Text(
                             _position.toString().split('.')[0],
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 20,),
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
                           Expanded(
                             child: Slider(
                               inactiveColor: Colors.white,
                               activeColor: Color(0xff7b57e4),
                               value: _position.inSeconds.toDouble(),
-                              min: const Duration()
-                                  .inSeconds
-                                  .toDouble(),
+                              min: const Duration().inSeconds.toDouble(),
                               max: _duration.inSeconds.toDouble(),
                               onChanged: (value) {
                                 setState(
-                                      () {
+                                  () {
                                     changeToSeconds(value.toInt());
                                     value = value;
                                   },
@@ -192,7 +218,9 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           Text(
                             _duration.toString().split('.')[0],
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 20,),
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
                         ],
                       ),
@@ -207,8 +235,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           iconSize: 45,
                           color: Colors.white,
                           onPressed: () {
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           icon: const Icon(Icons.skip_previous_rounded),
                         ),
@@ -228,9 +255,11 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                               _isPlaying = !_isPlaying;
                             });
                           },
-                          icon: Icon(_isPlaying
-                              ? Icons.pause_rounded
-                              : Icons.play_arrow_rounded,),
+                          icon: Icon(
+                            _isPlaying
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                          ),
                         ),
                         const SizedBox(
                           width: 20,
@@ -239,8 +268,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           iconSize: 45,
                           color: Colors.white,
                           onPressed: () {
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           icon: const Icon(Icons.skip_next_rounded),
                         ),
@@ -272,7 +300,7 @@ class ArtWorkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryArtworkWidget(
-      id: context.watch<SongModelProvider>().id,
+      id: 0,
       type: ArtworkType.AUDIO,
       artworkHeight: 300,
       artworkWidth: 300,
