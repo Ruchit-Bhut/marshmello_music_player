@@ -43,7 +43,6 @@ dependencies:
   audioplayers: ^1.1.1
   provider: ^6.0.5
   text_scroll: ^0.1.2
-  flutter_launcher_icons: ^0.11.0
 
 
 dev_dependencies:

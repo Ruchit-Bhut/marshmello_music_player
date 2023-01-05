@@ -255,11 +255,11 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                               trailing: InkWell(
                                 onTap: () {},
                                 child: isFavorite == true
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.favorite,
                                         color: Colors.white,
                                       )
-                                    : Icon(
+                                    : const Icon(
                                         Icons.favorite_outline_rounded,
                                         color: Colors.white,
                                       ),
