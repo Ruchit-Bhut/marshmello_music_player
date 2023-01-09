@@ -6,7 +6,6 @@ import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:provider/provider.dart';
 
 import 'provider/fav_song_model.dart';
 
@@ -300,7 +299,7 @@ class ArtWorkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryArtworkWidget(
-      id: 0,
+      id: context.read<SongModelProvider>().id,
       type: ArtworkType.AUDIO,
       artworkHeight: 300,
       artworkWidth: 300,

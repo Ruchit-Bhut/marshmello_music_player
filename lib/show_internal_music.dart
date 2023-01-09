@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -21,6 +22,7 @@ class ShowInternalMusic extends StatefulWidget {
 
 class _ShowInternalMusicState extends State<ShowInternalMusic> {
   final AudioPlayer _audioPlayer = AudioPlayer();
+  final OnAudioQuery audioQuery = OnAudioQuery();
   final TextEditingController _searchingController = TextEditingController();
 
   bool isFavorite = false;
@@ -40,7 +42,6 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
     }
   }
 
-  final OnAudioQuery audioQuery = OnAudioQuery();
 
   @override
   void initState() {
@@ -73,7 +74,7 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
           uriType: UriType.EXTERNAL,
           ignoreCase: true,
         ),
-        builder: (context, item) {
+        builder: (context,item) {
           if (item.data == null) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -149,22 +150,19 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (context) => const FavoriteSongs(),
-                              ),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/icons/lover.png',
-                            height: 25,
-                            width: 25,
-                          ),
+                      CupertinoButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (context) => const FavoriteSongs(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/icons/lover.png',
+                          height: 30,
+                          width: 30,
                         ),
                       ),
                     ],
@@ -273,10 +271,12 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                     ? const Icon(
                                         Icons.favorite,
                                         color: Colors.pink,
+                                        size: 30,
                                       )
                                     : const Icon(
                                         Icons.favorite_outline_rounded,
                                         color: Colors.white,
+                                        size: 30,
                                       ),
                               ),
                             ),
@@ -337,15 +337,31 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                 ),
                               ),
                               trailing: InkWell(
-                                onTap: () {},
-                                child: isFavorite == true
-                                    ? Icon(
+                                onTap: () {
+                                  if (context
+                                      .read<FavSongProvider>()
+                                      .isFav(item.data![index].id)) {
+                                    context
+                                        .read<FavSongProvider>()
+                                        .remFav(item.data![index].id);
+                                  } else {
+                                    context
+                                        .read<FavSongProvider>()
+                                        .addToFav(item.data![index].id);
+                                  }
+                                },
+                                child: context
+                                        .watch<FavSongProvider>()
+                                        .isFav(item.data![index].id)
+                                    ? const Icon(
                                         Icons.favorite,
-                                        color: Colors.white,
+                                        color: Colors.pink,
+                                        size: 30,
                                       )
-                                    : Icon(
+                                    : const Icon(
                                         Icons.favorite_outline_rounded,
                                         color: Colors.white,
+                                        size: 30,
                                       ),
                               ),
                             ),
@@ -365,73 +381,110 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
   }
 }
 
+
+
+
+
+// class showMusic extends StatelessWidget {
 //
-// Container(
-// decoration: BoxDecoration(
-// borderRadius: BorderRadius.circular(12),
-// color: Colors.white10,
-// ),
-// margin: const EdgeInsets.symmetric(
-// horizontal: 10,
-// vertical: 4,
-// ),
-// child: ListTile(
-// onTap: () {
-// context
-//     .read<SongModelProvider>()
-//     .setId(item.data![index].id);
-// Navigator.push(
-// context,
-// MaterialPageRoute<dynamic>(
-// builder: (context) => PlayMusicScreen(
-// songModel: item.data![index],
-// audioPlayer: _audioPlayer,
-// ),
-// ),
-// );
-// // playSong(item.data![index].uri);
-// },
-// leading: ClipRRect(
-// borderRadius: BorderRadius.circular(10),
-// child: QueryArtworkWidget(
-// id: item.data![index].id,
-// type: ArtworkType.AUDIO,
-// artworkHeight: 50,
-// artworkWidth: 50,
-// nullArtworkWidget: Image.asset(
-// 'assets/icons/music.png',
-// height: 50,
-// width: 50,
-// ),
-// ),
-// ),
-// title: Text(
-// item.data![index].displayNameWOExt,
-// style: const TextStyle(
-// fontSize: 15,
-// color: Colors.white,
-// ),
-// ),
-// subtitle: Text(
-// '${item.data![index].artist}',
-// style: const TextStyle(
-// fontSize: 13,
-// color: Colors.white60,
-// ),
-// ),
-// trailing: InkWell(
-// onTap: () {
+//   int index;
 //
-// },
-// child: isFavorite == true
-// ? Icon(
-// Icons.favorite,
-// color: Colors.white,
-// )
-// : Icon(
-// Icons.favorite_outline_rounded,
-// color: Colors.white,
-// ),
-// ),
-// ),
-// );
+//    showMusic({Key? key,required this.index}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     final AudioPlayer _audioPlayer = AudioPlayer();
+//     final OnAudioQuery audioQuery = OnAudioQuery();
+//
+//     bool isFavorite = false;
+//
+//
+//     return Container(
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(12),
+//         color: Colors.white10,
+//       ),
+//       margin: const EdgeInsets.symmetric(
+//         horizontal: 10,
+//         vertical: 4,
+//       ),
+//       child: ListTile(
+//         onTap: () {
+//           context
+//               .read<SongModelProvider>()
+//               .setId(item.data![index].id);
+//           Navigator.push(
+//             context,
+//             MaterialPageRoute<dynamic>(
+//               builder: (context) => PlayMusicScreen(
+//                 songModel: item.data![index],
+//                 audioPlayer: _audioPlayer,
+//               ),
+//             ),
+//           );
+//           // playSong(item.data![index].uri);
+//         },
+//         leading: ClipRRect(
+//           borderRadius: BorderRadius.circular(10),
+//           child: QueryArtworkWidget(
+//             id: item.data![index].id,
+//             type: ArtworkType.AUDIO,
+//             artworkHeight: 50,
+//             artworkWidth: 50,
+//             nullArtworkWidget: Image.asset(
+//               'assets/icons/music.png',
+//               height: 50,
+//               width: 50,
+//             ),
+//           ),
+//         ),
+//         title: Text(
+//           item.data![index].displayNameWOExt,
+//           style: const TextStyle(
+//             fontSize: 15,
+//             color: Colors.white,
+//           ),
+//         ),
+//         subtitle: Text(
+//           '${item.data![index].artist}',
+//           style: const TextStyle(
+//             fontSize: 13,
+//             color: Colors.white60,
+//           ),
+//         ),
+//         trailing: InkWell(
+//           onTap: () {
+//             if (context
+//                 .read<FavSongProvider>()
+//                 .isFav(item.data![index].id)) {
+//               context
+//                   .read<FavSongProvider>()
+//                   .remFav(item.data![index].id);
+//             } else {
+//               context
+//                   .read<FavSongProvider>()
+//                   .addToFav(item.data![index].id);
+//             }
+//           },
+//           child: context
+//               .watch<FavSongProvider>()
+//               .isFav(item.data![index].id)
+//               ? const Icon(
+//             Icons.favorite,
+//             color: Colors.pink,
+//             size: 30,
+//           )
+//               : const Icon(
+//             Icons.favorite_outline_rounded,
+//             color: Colors.white,
+//             size: 30,
+//           ),
+//         ),
+//       ),
+//     );
+//
+//   }
+// }
+
+//

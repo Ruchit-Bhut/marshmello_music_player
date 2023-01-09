@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:marshmello_music_player/provider/fav_song_model.dart';
 import 'package:marshmello_music_player/show_internal_music.dart';
+import 'package:provider/provider.dart';
 
 class FavoriteSongs extends StatefulWidget {
-  const FavoriteSongs({Key? key}) : super(key: key);
+  const FavoriteSongs({super.key});
 
   @override
   State<FavoriteSongs> createState() => _FavoriteSongsState();
@@ -19,14 +21,14 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
           SizedBox(
             width: 6,
             child: Image(
-              image: AssetImage("assets/icons/ThreeDot.png"),
+              image: AssetImage('assets/icons/ThreeDot.png'),
             ),
           ),
           SizedBox(
             width: 20,
           )
         ],
-        backgroundColor: Color(0xff100919),
+        backgroundColor: const Color(0xff100919),
         elevation: 0,
         leading: InkWell(
           onTap: () {
@@ -43,7 +45,7 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
           ),
         ),
         title: const Text(
-          "Your Favourit Song List",
+          'Your Favourite Song List',
           style: TextStyle(fontSize: 22),
         ),
         centerTitle: true,
@@ -63,6 +65,15 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
                 Color(0xff3b1a60),
               ],
             ),
+          ),
+          child: ListView.builder(
+            itemCount: context.watch<FavSongProvider>().fav.length,
+            itemBuilder: (context, index) {
+              return const Text(
+                'hii',
+                style: TextStyle(color: Colors.white, fontSize: 30,),
+              );
+            },
           ),
         ),
       ),
