@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:marshmello_music_player/provider/fav_song_model.dart';
 import 'package:marshmello_music_player/show_internal_music.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
+import 'model/song_favorite_data_model.dart';
+
 class FavoriteSongs extends StatefulWidget {
-  const FavoriteSongs({super.key});
+
+   FavoriteSongs({super.key,});
 
   @override
   State<FavoriteSongs> createState() => _FavoriteSongsState();
@@ -13,6 +17,7 @@ class FavoriteSongs extends StatefulWidget {
 class _FavoriteSongsState extends State<FavoriteSongs> {
   @override
   Widget build(BuildContext context) {
+    final favProvid = Provider.of<FavSongProvider>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -32,12 +37,12 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
         elevation: 0,
         leading: InkWell(
           onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ShowInternalMusic(),
-              ),
-            );
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShowInternalMusic(),
+                ),
+                (route) => false);
           },
           child: const Icon(
             Icons.chevron_left,
@@ -69,9 +74,14 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
           child: ListView.builder(
             itemCount: context.watch<FavSongProvider>().fav.length,
             itemBuilder: (context, index) {
-              return const Text(
-                'hii',
-                style: TextStyle(color: Colors.white, fontSize: 30,),
+
+
+              return  Text(
+               "hii" ,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                ),
               );
             },
           ),

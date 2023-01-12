@@ -4,15 +4,13 @@ Future<AudioHandler> initAudioService() async {
   return  AudioService.init(
     builder: MyAudioHandler.new,
     config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.mycompany.myapp.audio',
+      androidNotificationChannelId: 'com.company.myapp.audio',
       androidNotificationChannelName: 'Audio Service Demo',
       androidNotificationOngoing: true,
-      androidStopForegroundOnPause: true,
     ),
   );
 }
 class MyAudioHandler extends BaseAudioHandler {
-  // TODO: Override needed methods
   // final _player = AudioPlayer();
   // final _playlist = ConcatenatingAudioSource(children: []);
   //

@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -119,7 +117,7 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           decoration: InputDecoration(
                             fillColor: isSearching == ''
                                 ? Colors.white10
-                                : Color(0xff30164e),
+                                : const Color(0xff30164e),
                             filled: true,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -155,7 +153,8 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           Navigator.push(
                             context,
                             MaterialPageRoute<dynamic>(
-                              builder: (context) => const FavoriteSongs(),
+                              builder: (context) =>  FavoriteSongs(
+                              ),
                             ),
                           );
                         },

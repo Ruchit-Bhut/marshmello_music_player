@@ -1,13 +1,14 @@
+
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:marshmello_music_player/provider/fav_song_model.dart';
 import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
-
-import 'provider/fav_song_model.dart';
 
 class PlayMusicScreen extends StatefulWidget {
   const PlayMusicScreen({
@@ -161,10 +162,12 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                                   ? const Icon(
                                       Icons.favorite,
                                       color: Colors.pink,
+                                      size: 30,
                                     )
                                   : const Icon(
                                       Icons.favorite_outline_rounded,
                                       color: Colors.white,
+                                      size: 30,
                                     ),
                             ),
                           )
@@ -200,7 +203,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           Expanded(
                             child: Slider(
                               inactiveColor: Colors.white,
-                              activeColor: Color(0xff7b57e4),
+                              activeColor: const Color(0xff7b57e4),
                               value: _position.inSeconds.toDouble(),
                               min: const Duration().inSeconds.toDouble(),
                               max: _duration.inSeconds.toDouble(),
@@ -234,7 +237,11 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           iconSize: 45,
                           color: Colors.white,
                           onPressed: () {
-                            setState(() {});
+                            setState(() {
+                              if (widget.audioPlayer.hasPrevious) {
+                                widget.audioPlayer.seekToPrevious();
+                              }
+                            });
                           },
                           icon: const Icon(Icons.skip_previous_rounded),
                         ),
@@ -266,8 +273,10 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         IconButton(
                           iconSize: 45,
                           color: Colors.white,
-                          onPressed: () {
-                            setState(() {});
+                          onPressed: () async {
+
+                              await widget.audioPlayer.seekToNext();
+
                           },
                           icon: const Icon(Icons.skip_next_rounded),
                         ),
@@ -293,8 +302,6 @@ class ArtWorkWidget extends StatelessWidget {
   const ArtWorkWidget({
     super.key,
   });
-
-  // final PlayMusicScreen widget;
 
   @override
   Widget build(BuildContext context) {
