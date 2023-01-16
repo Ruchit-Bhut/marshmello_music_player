@@ -153,7 +153,8 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           Navigator.push(
                             context,
                             MaterialPageRoute<dynamic>(
-                              builder: (context) =>  FavoriteSongs(
+                              builder: (context) =>  FavoriteSongs(songs: item.data!,
+
                               ),
                             ),
                           );
@@ -254,7 +255,7 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                 onTap: () {
                                   if (context
                                       .read<FavSongProvider>()
-                                      .isFav(item.data![index].id)) {
+                                      .isFav(item.data![index].id,)) {
                                     context
                                         .read<FavSongProvider>()
                                         .remFav(item.data![index].id);
