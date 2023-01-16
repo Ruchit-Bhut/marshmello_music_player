@@ -58,6 +58,18 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
     });
   }
 
+  Future<void> next() async {
+    await widget.audioPlayer
+        .pause()
+        .then((value) => widget.audioPlayer.seekToNext());
+  }
+
+  Future<void> prev() async {
+    await widget.audioPlayer
+        .pause()
+        .then((value) => widget.audioPlayer.seekToPrevious());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +108,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 70),
-        child: Container(
+        child: DecoratedBox(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -235,11 +247,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                           iconSize: 45,
                           color: Colors.white,
                           onPressed: () {
-                            setState(() {
-                              if (widget.audioPlayer.hasPrevious) {
-                                widget.audioPlayer.seekToPrevious();
-                              }
-                            });
+
                           },
                           icon: const Icon(Icons.skip_previous_rounded),
                         ),
@@ -271,9 +279,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         IconButton(
                           iconSize: 45,
                           color: Colors.white,
-                          onPressed: () async {
-
-                              await widget.audioPlayer.seekToNext();
+                          onPressed: () {
 
                           },
                           icon: const Icon(Icons.skip_next_rounded),
