@@ -99,90 +99,90 @@ class _FavoriteSongsState extends State<FavoriteSongs> {
               itemCount: widget.songs.length,
               itemBuilder: (context, index) {
                 return context
-                        .watch<FavSongProvider>()
-                        .isFav(widget.songs.elementAt(index).id)
+                    .watch<FavSongProvider>()
+                    .isFav(widget.songs.elementAt(index).id)
                     ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white10,
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        child: ListTile(
-                          onTap: () {
-                            context
-                                .read<SongModelProvider>()
-                                .setId(widget.songs.length);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (context) => PlayMusicScreen(
-                                  songModel: widget.songs.elementAt(index),
-                                  audioPlayer: _audioPlayer,
-                                ),
-                              ),
-                            );
-                          },
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: QueryArtworkWidget(
-                              id: widget.songs.elementAt(index).id,
-                              type: ArtworkType.AUDIO,
-                              artworkHeight: 50,
-                              artworkWidth: 50,
-                              nullArtworkWidget: Image.asset(
-                                'assets/icons/music.png',
-                                height: 50,
-                                width: 50,
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            widget.songs.elementAt(index).displayNameWOExt,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                          subtitle: Text(
-                            '${widget.songs.elementAt(index).artist}',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.white60,
-                            ),
-                          ),
-                          trailing: InkWell(
-                            onTap: () {
-                              if (context.read<FavSongProvider>().isFav(
-                                    widget.songs.elementAt(index).id,
-                                  )) {
-                                context
-                                    .read<FavSongProvider>()
-                                    .remFav(widget.songs.elementAt(index).id);
-                              } else {
-                                context
-                                    .read<FavSongProvider>()
-                                    .addToFav(widget.songs.elementAt(index).id);
-                              }
-                            },
-                            child: context
-                                    .watch<FavSongProvider>()
-                                    .isFav(widget.songs.elementAt(index).id)
-                                ? const Icon(
-                                    Icons.favorite,
-                                    color: Colors.pink,
-                                    size: 30,
-                                  )
-                                : const Icon(
-                                    Icons.favorite_outline_rounded,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white10,
+                  ),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  child: ListTile(
+                    onTap: () {
+                      context
+                          .read<SongModelProvider>()
+                          .setId(widget.songs.length);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => PlayMusicScreen(
+                            songModel: widget.songs.elementAt(index),
+                            audioPlayer: _audioPlayer,
                           ),
                         ),
+                      );
+                    },
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: QueryArtworkWidget(
+                        id: widget.songs.elementAt(index).id,
+                        type: ArtworkType.AUDIO,
+                        artworkHeight: 50,
+                        artworkWidth: 50,
+                        nullArtworkWidget: Image.asset(
+                          'assets/icons/music.png',
+                          height: 50,
+                          width: 50,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      widget.songs.elementAt(index).displayNameWOExt,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${widget.songs.elementAt(index).artist}',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.white60,
+                      ),
+                    ),
+                    trailing: InkWell(
+                      onTap: () {
+                        if (context.read<FavSongProvider>().isFav(
+                          widget.songs.elementAt(index).id,
+                        )) {
+                          context
+                              .read<FavSongProvider>()
+                              .remFav(widget.songs.elementAt(index).id);
+                        } else {
+                          context
+                              .read<FavSongProvider>()
+                              .addToFav(widget.songs.elementAt(index).id);
+                        }
+                      },
+                      child: context
+                          .watch<FavSongProvider>()
+                          .isFav(widget.songs.elementAt(index).id)
+                          ? const Icon(
+                        Icons.favorite,
+                        color: Colors.pink,
+                        size: 30,
                       )
+                          : const Icon(
+                        Icons.favorite_outline_rounded,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                )
                     : const SizedBox();
               },
             ),

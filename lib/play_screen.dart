@@ -167,18 +167,18 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                               height: 20,
                               width: 20,
                               child: context
-                                      .watch<FavSongProvider>()
-                                      .isFav(widget.songModel.id)
+                                  .watch<FavSongProvider>()
+                                  .isFav(widget.songModel.id)
                                   ? const Icon(
-                                      Icons.favorite,
-                                      color: Colors.pink,
-                                      size: 30,
-                                    )
+                                Icons.favorite,
+                                color: Colors.pink,
+                                size: 30,
+                              )
                                   : const Icon(
-                                      Icons.favorite_outline_rounded,
-                                      color: Colors.white,
-                                      size: 30,
-                                    ),
+                                Icons.favorite_outline_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
                           )
                         ],
@@ -189,7 +189,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                             : widget.songModel.artist.toString(),
                         maxLines: 1,
                         style:
-                            const TextStyle(color: Colors.grey, fontSize: 20),
+                        const TextStyle(color: Colors.grey, fontSize: 20),
                       ),
                     ],
                   ),
@@ -219,7 +219,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                               max: _duration.inSeconds.toDouble(),
                               onChanged: (value) {
                                 setState(
-                                  () {
+                                      () {
                                     changeToSeconds(value.toInt());
                                     value = value;
                                   },

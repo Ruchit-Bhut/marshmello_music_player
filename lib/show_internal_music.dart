@@ -136,15 +136,15 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                             suffixIcon: isSearching == ''
                                 ? null
                                 : IconButton(
-                                    onPressed: () {
-                                      setState(_searchingController.clear);
-                                    },
-                                    icon: const Icon(
-                                      Icons.close,
-                                      size: 28,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                              onPressed: () {
+                                setState(_searchingController.clear);
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                size: 28,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -266,18 +266,18 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                   }
                                 },
                                 child: context
-                                        .watch<FavSongProvider>()
-                                        .isFav(item.data![index].id)
+                                    .watch<FavSongProvider>()
+                                    .isFav(item.data![index].id)
                                     ? const Icon(
-                                        Icons.favorite,
-                                        color: Colors.pink,
-                                        size: 30,
-                                      )
+                                  Icons.favorite,
+                                  color: Colors.pink,
+                                  size: 30,
+                                )
                                     : const Icon(
-                                        Icons.favorite_outline_rounded,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
+                                  Icons.favorite_outline_rounded,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
                               ),
                             ),
                           );
@@ -351,18 +351,18 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                   }
                                 },
                                 child: context
-                                        .watch<FavSongProvider>()
-                                        .isFav(item.data![index].id)
+                                    .watch<FavSongProvider>()
+                                    .isFav(item.data![index].id)
                                     ? const Icon(
-                                        Icons.favorite,
-                                        color: Colors.pink,
-                                        size: 30,
-                                      )
+                                  Icons.favorite,
+                                  color: Colors.pink,
+                                  size: 30,
+                                )
                                     : const Icon(
-                                        Icons.favorite_outline_rounded,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
+                                  Icons.favorite_outline_rounded,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
                               ),
                             ),
                           );
@@ -486,5 +486,3 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
 //
 //   }
 // }
-
-//
