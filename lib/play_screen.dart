@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marshmello_music_player/provider/fav_song_model.dart';
-import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -126,9 +125,19 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 40,
+                  height: 50,
                 ),
-                const ArtWorkWidget(),
+                QueryArtworkWidget(
+                  id: widget.songModel.id,
+                  type: ArtworkType.AUDIO,
+                  artworkHeight: 350,
+                  artworkWidth: 350,
+                  nullArtworkWidget: Image.asset(
+                    'assets/icons/music.png',
+                    height: 350,
+                    width: 350,
+                  ),
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -167,18 +176,18 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                               height: 20,
                               width: 20,
                               child: context
-                                  .watch<FavSongProvider>()
-                                  .isFav(widget.songModel.id)
+                                      .watch<FavSongProvider>()
+                                      .isFav(widget.songModel.id)
                                   ? const Icon(
-                                Icons.favorite,
-                                color: Colors.pink,
-                                size: 30,
-                              )
+                                      Icons.favorite,
+                                      color: Colors.pink,
+                                      size: 30,
+                                    )
                                   : const Icon(
-                                Icons.favorite_outline_rounded,
-                                color: Colors.white,
-                                size: 30,
-                              ),
+                                      Icons.favorite_outline_rounded,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
                             ),
                           )
                         ],
@@ -189,7 +198,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                             : widget.songModel.artist.toString(),
                         maxLines: 1,
                         style:
-                        const TextStyle(color: Colors.grey, fontSize: 20),
+                            const TextStyle(color: Colors.grey, fontSize: 20),
                       ),
                     ],
                   ),
@@ -219,7 +228,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                               max: _duration.inSeconds.toDouble(),
                               onChanged: (value) {
                                 setState(
-                                      () {
+                                  () {
                                     changeToSeconds(value.toInt());
                                     value = value;
                                   },
@@ -246,9 +255,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         IconButton(
                           iconSize: 45,
                           color: Colors.white,
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           icon: const Icon(Icons.skip_previous_rounded),
                         ),
                         const SizedBox(
@@ -279,9 +286,7 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
                         IconButton(
                           iconSize: 45,
                           color: Colors.white,
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           icon: const Icon(Icons.skip_next_rounded),
                         ),
                       ],
@@ -302,24 +307,15 @@ class _PlayMusicScreenState extends State<PlayMusicScreen> {
   }
 }
 
-class ArtWorkWidget extends StatelessWidget {
-  const ArtWorkWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return QueryArtworkWidget(
-      id: context.read<SongModelProvider>().id,
-      type: ArtworkType.AUDIO,
-      artworkHeight: 300,
-      artworkWidth: 300,
-      artworkFit: BoxFit.cover,
-      nullArtworkWidget: Image.asset(
-        'assets/icons/music.png',
-        height: 300,
-        width: 300,
-      ),
-    );
-  }
-}
+// QueryArtworkWidget(
+//   id: widget.songModel.id,
+//   type: ArtworkType.AUDIO,
+//   artworkHeight: 300,
+//   artworkWidth: 300,
+//   artworkFit: BoxFit.cover,
+//   nullArtworkWidget: Image.asset(
+//     'assets/icons/music.png',
+//     height: 300,
+//     width: 300,
+//   ),
+// ),

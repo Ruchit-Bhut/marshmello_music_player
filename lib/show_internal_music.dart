@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:marshmello_music_player/favorite_songs.dart';
 import 'package:marshmello_music_player/play_screen.dart';
 import 'package:marshmello_music_player/provider/fav_song_model.dart';
-import 'package:marshmello_music_player/provider/song_model_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
 
@@ -40,10 +38,10 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
+    context.read<FavSongProvider>();
     requestPermission();
   }
 
@@ -72,7 +70,7 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
           uriType: UriType.EXTERNAL,
           ignoreCase: true,
         ),
-        builder: (context,item) {
+        builder: (context, item) {
           if (item.data == null) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -136,15 +134,15 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                             suffixIcon: isSearching == ''
                                 ? null
                                 : IconButton(
-                              onPressed: () {
-                                setState(_searchingController.clear);
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                size: 28,
-                                color: Colors.white,
-                              ),
-                            ),
+                                    onPressed: () {
+                                      setState(_searchingController.clear);
+                                    },
+                                    icon: const Icon(
+                                      Icons.close,
+                                      size: 28,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
@@ -153,8 +151,8 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                           Navigator.push(
                             context,
                             MaterialPageRoute<dynamic>(
-                              builder: (context) =>  FavoriteSongs(songs: item.data!,
-
+                              builder: (context) => FavoriteSongs(
+                                songs: item.data!,
                               ),
                             ),
                           );
@@ -210,8 +208,8 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                             child: ListTile(
                               onTap: () {
                                 context
-                                    .read<SongModelProvider>()
-                                    .setId(item.data![index].id);
+                                    .read<FavSongProvider>()
+                                    .isFav(item.data![index].id);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<dynamic>(
@@ -221,7 +219,6 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                     ),
                                   ),
                                 );
-                                // playSong(item.data![index].uri);
                               },
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -253,9 +250,9 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                               ),
                               trailing: InkWell(
                                 onTap: () {
-                                  if (context
-                                      .read<FavSongProvider>()
-                                      .isFav(item.data![index].id,)) {
+                                  if (context.read<FavSongProvider>().isFav(
+                                        item.data![index].id,
+                                      )) {
                                     context
                                         .read<FavSongProvider>()
                                         .remFav(item.data![index].id);
@@ -265,19 +262,19 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                         .addToFav(item.data![index].id);
                                   }
                                 },
-                                child: context
-                                    .watch<FavSongProvider>()
-                                    .isFav(item.data![index].id)
+                                child: context.watch<FavSongProvider>().isFav(
+                                          item.data![index].id,
+                                        )
                                     ? const Icon(
-                                  Icons.favorite,
-                                  color: Colors.pink,
-                                  size: 30,
-                                )
+                                        Icons.favorite,
+                                        color: Colors.pink,
+                                        size: 30,
+                                      )
                                     : const Icon(
-                                  Icons.favorite_outline_rounded,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
+                                        Icons.favorite_outline_rounded,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
                               ),
                             ),
                           );
@@ -295,8 +292,8 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                             child: ListTile(
                               onTap: () {
                                 context
-                                    .read<SongModelProvider>()
-                                    .setId(item.data![index].id);
+                                    .read<FavSongProvider>()
+                                    .isFav(item.data![index].id);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<dynamic>(
@@ -338,9 +335,9 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                               ),
                               trailing: InkWell(
                                 onTap: () {
-                                  if (context
-                                      .read<FavSongProvider>()
-                                      .isFav(item.data![index].id)) {
+                                  if (context.read<FavSongProvider>().isFav(
+                                        item.data![index].id,
+                                      )) {
                                     context
                                         .read<FavSongProvider>()
                                         .remFav(item.data![index].id);
@@ -350,19 +347,19 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
                                         .addToFav(item.data![index].id);
                                   }
                                 },
-                                child: context
-                                    .watch<FavSongProvider>()
-                                    .isFav(item.data![index].id)
+                                child: context.watch<FavSongProvider>().isFav(
+                                          item.data![index].id,
+                                        )
                                     ? const Icon(
-                                  Icons.favorite,
-                                  color: Colors.pink,
-                                  size: 30,
-                                )
+                                        Icons.favorite,
+                                        color: Colors.pink,
+                                        size: 30,
+                                      )
                                     : const Icon(
-                                  Icons.favorite_outline_rounded,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
+                                        Icons.favorite_outline_rounded,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
                               ),
                             ),
                           );
@@ -380,10 +377,6 @@ class _ShowInternalMusicState extends State<ShowInternalMusic> {
     );
   }
 }
-
-
-
-
 
 // class showMusic extends StatelessWidget {
 //
